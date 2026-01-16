@@ -1,5 +1,3 @@
-// popup.js
-
 // ===== STATE =====
 const state = {
   currentGame: 'menu',
@@ -11,9 +9,9 @@ const state = {
 };
 
 const games = [
-  { id: 'snake', name: 'Snake', color: 'bg-green-200', icon: '🐍' },
-  { id: 'flappy', name: 'Flappy Bird', color: 'bg-blue-200', icon: '🐦' },
-  { id: '2048', name: '2048', color: 'bg-yellow-200', icon: '🎯' }
+  { id: 'snake', name: 'Snake', color: 'bg-green-200'},
+  { id: 'flappy', name: 'Flappy Bird', color: 'bg-blue-200'},
+  { id: '2048', name: '2048', color: 'bg-yellow-200'}
 ];
 
 // ===== RENDER LOOP =====
@@ -28,9 +26,9 @@ function render() {
 
 function renderMenu(container) {
   container.innerHTML = `
-    <div class="p-8">
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 w-full max-w-sm mx-4 p-8">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-4xl font-bold text-gray-800">Game Zone</h1>
+        <h1 class="text-3xl font-bold text-gray-800">Game Zone</h1>
         <button id="closeWindowBtn" class="text-gray-500 hover:text-red-500 text-2xl font-bold transition-colors" title="Close">
           ✕
         </button>
@@ -42,7 +40,6 @@ function renderMenu(container) {
         ${games.map(game => `
           <button data-game="${game.id}"
             class="game-select-btn w-full ${game.color} hover:opacity-80 text-gray-800 font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 flex items-center justify-between shadow-lg">
-            <span class="text-2xl">${game.icon}</span>
             <span class="text-xl">${game.name}</span>
             <span class="text-2xl">▶</span>
           </button>`).join('')}
@@ -90,16 +87,18 @@ let snakeGameState = null;
 
 function renderSnake(container) {
   container.innerHTML = `
-    <div class="p-6">
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 w-full max-w-sm mx-4 p-6">
       <div class="flex justify-between items-center mb-4">
         <button id="snakeHomeBtn" class="text-gray-800 hover:text-purple-400 text-2xl">🏠</button>
-        <div class="text-gray-800 text-center">
+        <div class="text-gray-800 text-center flex-1">
           <div class="text-sm text-gray-600">Score: <span id="snakeScoreDisplay">${state.snakeScore}</span></div>
           <div class="text-xs text-gray-500">High: ${state.snakeHighScore}</div>
         </div>
         <button id="snakeCloseBtn" class="text-gray-500 hover:text-red-500 text-2xl font-bold" title="Close">✕</button>
       </div>
-      <canvas id="snakeCanvas" width="300" height="300" class="border-4 border-green-200 rounded-lg mx-auto block bg-gray-900"></canvas>
+      <div class="flex justify-center mb-4">
+        <canvas id="snakeCanvas" width="300" height="300" class="border-4 border-green-200 rounded-lg bg-gray-900"></canvas>
+      </div>
       <div id="snakeControls" class="text-center mt-4">
         <button id="startSnakeBtn"
           class="bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-3 px-8 rounded-xl transition-all">
@@ -207,16 +206,18 @@ let flappyGameState = null;
 
 function renderFlappy(container) {
   container.innerHTML = `
-    <div class="p-6">
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 w-full max-w-sm mx-4 p-6">
       <div class="flex justify-between items-center mb-4">
         <button id="flappyHomeBtn" class="text-gray-800 hover:text-purple-400 text-2xl">🏠</button>
-        <div class="text-gray-800 text-center">
+        <div class="text-gray-800 text-center flex-1">
           <div class="text-sm text-gray-600">Score: <span id="flappyScoreDisplay">${state.flappyScore}</span></div>
           <div class="text-xs text-gray-500">High: ${state.flappyHighScore}</div>
         </div>
         <button id="flappyCloseBtn" class="text-gray-500 hover:text-red-500 text-2xl font-bold" title="Close">✕</button>
       </div>
-      <canvas id="flappyCanvas" width="300" height="400" class="border-4 border-blue-200 rounded-lg mx-auto block cursor-pointer bg-sky-200"></canvas>
+      <div class="flex justify-center mb-4">
+        <canvas id="flappyCanvas" width="300" height="400" class="border-4 border-blue-200 rounded-lg cursor-pointer bg-sky-200"></canvas>
+      </div>
       <div id="flappyControls" class="text-center mt-4">
         <button id="startFlappyBtn"
           class="bg-blue-200 hover:bg-blue-300 text-gray-800 font-bold py-3 px-8 rounded-xl transition-all">
@@ -232,6 +233,8 @@ function renderFlappy(container) {
   document.getElementById('flappyCloseBtn').addEventListener('click', closeWindow);
   document.getElementById('startFlappyBtn').addEventListener('click', startFlappy);
 }
+
+
 
 function startFlappy() {
   if (flappyInterval) clearInterval(flappyInterval);
@@ -364,20 +367,22 @@ function render2048(container) {
   if (board2048.length === 0) init2048();
 
   container.innerHTML = `
-    <div class="p-6">
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 w-full max-w-sm mx-4 p-6">
       <div class="flex justify-between items-center mb-4">
         <button id="game2048HomeBtn" class="text-gray-800 hover:text-purple-400 text-2xl">🏠</button>
-        <div class="text-gray-800 text-xl font-bold">Score: ${state.game2048Score}</div>
+        <div class="text-gray-800 text-xl font-bold flex-1 text-center">Score: ${state.game2048Score}</div>
         <button id="game2048CloseBtn" class="text-gray-500 hover:text-red-500 text-2xl font-bold" title="Close">✕</button>
       </div>
-      <div class="bg-gray-300 p-3 rounded-lg mx-auto inline-block">
-        ${board2048.map((row, i) => `
-          <div class="flex gap-2 ${i < 3 ? 'mb-2' : ''}">
-            ${row.map((cell, j) => `
-              <div class="w-16 h-16 ${getTileColor(cell)} rounded flex items-center justify-center text-2xl font-bold text-gray-800">
-                ${cell > 0 ? cell : ''}
-              </div>`).join('')}
-          </div>`).join('')}
+      <div class="flex justify-center mb-4">
+        <div class="bg-gray-300 p-3 rounded-lg">
+          ${board2048.map((row, i) => `
+            <div class="flex gap-2 ${i < 3 ? 'mb-2' : ''}">
+              ${row.map((cell, j) => `
+                <div class="w-16 h-16 ${getTileColor(cell)} rounded flex items-center justify-center text-2xl font-bold text-gray-800">
+                  ${cell > 0 ? cell : ''}
+                </div>`).join('')}
+            </div>`).join('')}
+        </div>
       </div>
       <div id="game2048Controls" class="text-center mt-4">
         <button id="reset2048Btn" class="bg-yellow-200 hover:bg-yellow-300 text-gray-800 font-bold py-2 px-6 rounded-xl transition-all mb-2">

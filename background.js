@@ -1,8 +1,8 @@
 console.log('Background service worker started!');
 
-let elapsedMinutes = 0;
 let intervalMinutes = 1; // default 1 minute for testing
 let popupWindowId = null; // Track the current popup window
+let alarmPaused = false; // Track if alarm is paused
 
 // Load saved interval
 chrome.storage.sync.get(['gameInterval'], (res) => {
@@ -17,9 +17,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (!isNaN(intervalMinutes) && intervalMinutes > 0) {
       console.log('Interval updated to', intervalMinutes, 'minutes');
       chrome.storage.sync.set({ gameInterval: intervalMinutes });
-      elapsedMinutes = 0;
+      
+      // Clear and recreate alarm with new interval
       chrome.alarms.clear('gamePopup', () => {
-        setupAlarm(intervalMinutes);
+        // Only setup alarm if not paused
+        if (!alarmPaused) {
+          setupAlarm(intervalMinutes);
+        }
       });
     }
   }
@@ -43,7 +47,9 @@ chrome.alarms.onAlarm.addListener((alarm) => {
           // Window was closed, create new one
           createPopupWindow();
         } else {
-          // Window still exists, focus it instead of creating new one
+          // Window still exists, pause alarm and focus the window
+          console.log('Window already open, pausing alarm');
+          pauseAlarm();
           chrome.windows.update(popupWindowId, { focused: true });
         }
       });
@@ -56,34 +62,58 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 // Track when windows are closed
 chrome.windows.onRemoved.addListener((windowId) => {
   if (windowId === popupWindowId) {
+    console.log('Game window closed, resuming alarm');
     popupWindowId = null;
+    
+    // Resume alarm when window is closed
+    resumeAlarm();
   }
 });
 
 function createPopupWindow() {
-  // Get the current screen dimensions to position the popup
-  chrome.system.display.getInfo((displays) => {
-    const primaryDisplay = displays[0];
-    const screenWidth = primaryDisplay.bounds.width;
-    const screenHeight = primaryDisplay.bounds.height;
-    
-    const popupWidth = 420;
-    const popupHeight = 650;
-    
-    // Position in bottom-right corner with some padding
-    const left = screenWidth - popupWidth - 20;
-    const top = screenHeight - popupHeight - 80;
-    
-    chrome.windows.create({
-      url: 'popup.html',
-      type: 'popup',
-      width: popupWidth,
-      height: popupHeight,
-      left: left,
-      top: top,
-      focused: true
-    }, (window) => {
+  // Pause the alarm while window is open
+  pauseAlarm();
+  
+  const popupWidth = 420;
+  const popupHeight = 650;
+  
+  // Create window without positioning (let it default)
+  // Or calculate position based on screen
+  chrome.windows.create({
+    url: 'popup.html',
+    type: 'popup',
+    width: popupWidth,
+    height: popupHeight,
+    focused: true
+  }, (window) => {
+    if (window) {
       popupWindowId = window.id;
-    });
+      console.log('Game window opened with dimensions:', window.width, 'x', window.height);
+      
+      // Force resize after creation (sometimes needed)
+      setTimeout(() => {
+        chrome.windows.update(window.id, {
+          width: popupWidth,
+          height: popupHeight
+        });
+      }, 100);
+    }
   });
+}
+
+function pauseAlarm() {
+  if (!alarmPaused) {
+    chrome.alarms.clear('gamePopup', () => {
+      alarmPaused = true;
+      console.log('Alarm paused');
+    });
+  }
+}
+
+function resumeAlarm() {
+  if (alarmPaused) {
+    alarmPaused = false;
+    setupAlarm(intervalMinutes);
+    console.log('Alarm resumed');
+  }
 }
