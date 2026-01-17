@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Zone Settings</title>
+  <link rel="stylesheet" href="css/tailwind.min.css">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-8">
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 overflow-hidden mb-6">
+      <div class="bg-gradient-to-r from-purple-400 to-pink-400 p-6 text-white">
+        <h1 class="text-3xl font-bold mb-2">🎮 Game Zone Settings</h1>
+        <p class="text-purple-100">Configure your gaming break intervals</p>
+      </div>
+    </div>
+
+    <!-- Main Settings Card -->
+    <div class="bg-white rounded-2xl shadow-2xl border-4 border-purple-200 overflow-hidden p-8">
+      <div class="mb-6">
+        <label class="block text-gray-700 font-bold mb-3 text-lg">
+          ⏰ Game Popup Interval
+        </label>
+        <div class="flex items-center gap-4">
+          <input 
+            id="intervalInput" 
+            type="number" 
+            min="0.1" 
+            step="0.1" 
+            class="border-2 border-purple-300 p-3 rounded-xl w-32 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent" 
+            placeholder="1.0"
+          />
+          <span class="text-gray-600 font-medium">minutes</span>
+        </div>
+        <p class="text-gray-500 text-sm mt-2">Set how often you want game popups to appear (minimum 0.1 minutes)</p>
+      </div>
+
+      <!-- Quick Presets -->
+      <div class="mb-6">
+        <label class="block text-gray-700 font-bold mb-3">⚡ Quick Presets</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button data-preset="5" class="preset-btn bg-green-200 hover:bg-green-300 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
+            5 min<br><span class="text-xs text-gray-600">Quick Break</span>
+          </button>
+          <button data-preset="15" class="preset-btn bg-blue-200 hover:bg-blue-300 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
+            15 min<br><span class="text-xs text-gray-600">Short Break</span>
+          </button>
+          <button data-preset="30" class="preset-btn bg-yellow-200 hover:bg-yellow-300 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
+            30 min<br><span class="text-xs text-gray-600">Focus Time</span>
+          </button>
+          <button data-preset="60" class="preset-btn bg-pink-200 hover:bg-pink-300 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-105">
+            60 min<br><span class="text-xs text-gray-600">Deep Work</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <button 
+        id="saveBtn" 
+        class="w-full bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg text-lg">
+        💾 Save Settings
+      </button>
+
+      <!-- Status Message -->
+      <div id="status" class="mt-4 p-4 rounded-xl text-center font-semibold hidden"></div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-6 mt-6">
+      <h3 class="font-bold text-gray-800 mb-2 flex items-center gap-2">
+        <span>ℹ️</span> How It Works
+      </h3>
+      <ul class="text-gray-600 text-sm space-y-2">
+        <li>• A game popup will appear at your chosen interval</li>
+        <li>• Choose from Snake 🐍, Flappy Bird 🐦, or 2048 🎯</li>
+        <li>• Take quick breaks to refresh your mind!</li>
+        <li>• Beat your high scores with each break</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
