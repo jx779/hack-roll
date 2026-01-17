@@ -5,19 +5,301 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Zone</title>
-  <link rel="stylesheet" href="css/tailwind.min.css">
   <style>
-    body {
+    * {
       margin: 0;
-      width: 400px;
-      height: 600px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 420px;
+      height: 650px;
       overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #fce7f3 0%, #e9d5ff 50%, #dbeafe 100%);
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #c084fc 0%, #f9a8d4 100%);
+      padding: 24px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    /* Menu Styles */
+    .game-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .game-card {
+      background: white;
+      border: 3px solid #e9d5ff;
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(167, 139, 250, 0.3);
+      border-color: #c084fc;
+    }
+
+    .game-card-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .game-icon {
+      font-size: 40px;
+    }
+
+    .game-info h3 {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .game-info p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .game-arrow {
+      font-size: 24px;
+      color: #c084fc;
+    }
+
+    /* Game Screen Styles */
+    .game-screen {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: white;
+      border-radius: 16px;
+      border: 2px solid #e9d5ff;
+    }
+
+    .home-btn {
+      background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .home-btn:hover {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+    }
+
+    .score-display {
+      text-align: center;
+      flex: 1;
+    }
+
+    .score-display .current {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1f2937;
+    }
+
+    .score-display .high {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .game-canvas-container {
+      background: white;
+      border-radius: 16px;
+      border: 3px solid #e9d5ff;
+      padding: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+
+    .game-controls {
+      text-align: center;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, #c084fc 0%, #f9a8d4 100%);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(192, 132, 252, 0.3);
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(192, 132, 252, 0.4);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    .controls-hint {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    /* 2048 Board */
+    .board-2048 {
+      background: #bbada0;
+      border-radius: 12px;
+      padding: 12px;
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    .board-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .board-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .tile {
+      width: 70px;
+      height: 70px;
+      background: #cdc1b4;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #776e65;
+    }
+
+    .tile-2 { background: #eee4da; color: #776e65; }
+    .tile-4 { background: #ede0c8; color: #776e65; }
+    .tile-8 { background: #f2b179; color: #f9f6f2; }
+    .tile-16 { background: #f59563; color: #f9f6f2; }
+    .tile-32 { background: #f67c5f; color: #f9f6f2; }
+    .tile-64 { background: #f65e3b; color: #f9f6f2; }
+    .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 24px; }
+    .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 24px; }
+    .tile-512 { background: #edc850; color: #f9f6f2; font-size: 24px; }
+    .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 20px; }
+    .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 20px; }
+
+    .reset-btn {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+    }
+
+    .reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
     }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
-  <div id="content" class="w-full h-full flex items-center justify-center"></div>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="close-btn" id="closeBtn">✕</button>
+      <h1 id="headerTitle">🎮 Game Zone</h1>
+      <p id="headerSubtitle">Time for a brain break!</p>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
 
   <script src="popup.js"></script>
 </body>
