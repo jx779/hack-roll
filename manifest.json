@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Game Zone - Beat Boredom",
+  "name": "Game Zone",
   "version": "1.0",
-  "description": "Fun games to play when you're bored!",
+  "description": "Stressed from working? Take a break every hour with our super fun mini games!",
   "action": {
     "default_popup": "settings.html",
     "default_icon": "icon.png"

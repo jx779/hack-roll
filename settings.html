@@ -168,7 +168,7 @@
       font-size: 14px;
       font-weight: bold;
       color: #1f2937;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -177,7 +177,7 @@
     .info-card ul {
       list-style: none;
       color: #4b5563;
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .info-card li {
@@ -208,7 +208,6 @@
       transform: scale(0.98);
     }
 
-    /* Timer Control Styles */
     .timer-controls {
       display: flex;
       gap: 12px;
@@ -300,19 +299,20 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
+    <!-- header -->
     <div class="header">
       <h1>Welcome to Game Zone!</h1>
       <p>Set your gaming break intervals</p>
     </div>
 
-    <!-- Content -->
+    <!-- content -->
     <div class="content">
-      <!-- Timing Options -->
+      <!-- timing options -->
       <div>
         <div class="section-title center-title">Choose Your Break Interval!</div>
         <div class="timing-options">
-          <!-- First Row: 5 and 10 minutes -->
+
+          <!-- 5 and 10 minutes -->
           <div class="timing-row">
             <div class="timing-option" data-minutes="5">
               <div class="time">5 min</div>
@@ -322,7 +322,7 @@
             </div>
           </div>
           
-          <!-- Second Row: 15 and 20 minutes -->
+          <!-- 15 and 20 minutes -->
           <div class="timing-row">
             <div class="timing-option" data-minutes="15">
               <div class="time">15 min</div>
@@ -334,7 +334,7 @@
         </div>
       </div>
 
-      <!-- Custom Time Input -->
+      <!-- custome time input -->
       <div class="custom-input-section">
         <div class="section-title">Custom Time</div>
         <div class="input-group">
@@ -347,15 +347,14 @@
           />
           <label>minutes</label>
         </div>
-        <p class="input-description">Or set a custom interval (minimum 0.1 minutes)</p>
       </div>
 
-      <!-- Save Button -->
+      <!-- save button -->
       <button id="saveBtn" class="save-button">
         Save Settings
       </button>
 
-      <!-- Timer Controls -->
+      <!-- timer controls -->
       <div class="timer-controls">
         <button id="startTimerBtn" class="timer-btn start-timer-btn">
           Start Timer
@@ -365,21 +364,21 @@
         </button>
       </div>
 
-      <!-- Timer Status -->
-      <div id="timerStatus" class="timer-status stopped">Timer is stopped</div>
+      <!-- timer status -->
+      <div id="timerStatus" class="timer-status stopped">Timer stopped</div>
 
-      <!-- Status Message -->
+      <!-- status message -->
       <div id="status" class="status-message"></div>
 
-      <!-- Info Card -->
+      <!-- info card -->
       <div class="info-card">
-        <h3>How It Works:</h3>
+        <h3>How it works:</h3>
         <ul>
-          <li>1. Set your preferred break interval above</li>
+          <li>1. Set your desired break interval</li>
           <li>2. Click "Save Settings" to save your interval</li>
-          <li>3. Click "Start Timer" to begin game popups</li>
-          <li>4. Click "Stop Timer" to pause popups</li>
-          <li>5. Choose from Snake 🐍, Flappy Bird 🐦, or 2048 🎯</li>
+          <li>3. Click "Start Timer" to begin a session</li>
+          <li>4. Click "Stop Timer" to pause the session</li>
+          <li>5. Choose from Snake 🐍, Flappy Bird 🐦, 2048 🎯 or Tetris 🧱</li>
         </ul>
       </div>
     </div>

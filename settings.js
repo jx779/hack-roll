@@ -1,4 +1,3 @@
-// settings.js
 const input = document.getElementById('intervalInput');
 const status = document.getElementById('status');
 const saveBtn = document.getElementById('saveBtn');
@@ -9,12 +8,11 @@ const timerStatus = document.getElementById('timerStatus');
 
 let timerRunning = false;
 
-// Load saved interval and timer state on page load
+// load saved interval and timer state when page loads
 chrome.storage.sync.get(['gameInterval', 'timerRunning'], (data) => {
   if (data.gameInterval) {
     input.value = data.gameInterval;
     
-    // Highlight the matching preset option
     timingOptions.forEach(option => {
       if (parseInt(option.dataset.minutes) === parseInt(data.gameInterval)) {
         option.classList.add('selected');
@@ -24,56 +22,52 @@ chrome.storage.sync.get(['gameInterval', 'timerRunning'], (data) => {
     input.value = 1;
   }
   
-  // Load timer state
+  // load timer
   timerRunning = data.timerRunning || false;
   updateTimerUI();
 });
 
-// Handle preset timing option clicks
+// preset timing options
 timingOptions.forEach(option => {
   option.addEventListener('click', function() {
-    // Remove selected class from all options
     timingOptions.forEach(opt => opt.classList.remove('selected'));
     
-    // Add selected class to clicked option
     this.classList.add('selected');
     
-    // Set the input value
     const minutes = this.dataset.minutes;
     input.value = minutes;
   });
 });
 
-// Clear selection when custom input is used
+// clear selection when custom input used
 input.addEventListener('input', function() {
   timingOptions.forEach(opt => opt.classList.remove('selected'));
 });
 
-// Save button handler
+// save button handler
 saveBtn.addEventListener('click', saveInterval);
 
-// Also save on Enter key
+// also works with enter key
 input.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     saveInterval();
   }
 });
 
-// Start Timer button
+// start timer button
 startTimerBtn.addEventListener('click', () => {
   const interval = parseFloat(input.value);
   
   if (!interval || interval < 0.1) {
-    showStatus('⚠️ Please set a valid interval first (minimum 0.1 minutes)', 'error');
+    showStatus('⚠️ Please set a valid interval (minimum 0.1 minutes)', 'error');
     return;
   }
   
-  // Save interval and start timer
+  // save interval and start timer
   chrome.storage.sync.set({ 
     gameInterval: interval,
     timerRunning: true 
   }, () => {
-    // Send message to background to start timer
     chrome.runtime.sendMessage({
       action: 'startTimer',
       value: interval
@@ -85,17 +79,16 @@ startTimerBtn.addEventListener('click', () => {
   });
 });
 
-// Stop Timer button
+// stop timer button
 stopTimerBtn.addEventListener('click', () => {
   chrome.storage.sync.set({ timerRunning: false }, () => {
-    // Send message to background to stop timer
     chrome.runtime.sendMessage({
       action: 'stopTimer'
     });
     
     timerRunning = false;
     updateTimerUI();
-    showStatus('⏸️ Timer stopped', 'error');
+    showStatus('Timer stopped', 'error');
   });
 });
 
@@ -107,9 +100,7 @@ function saveInterval() {
     return;
   }
 
-  // Save to storage with the correct key
   chrome.storage.sync.set({ gameInterval: interval }, () => {
-    // Only send message to update interval if timer is running
     if (timerRunning) {
       chrome.runtime.sendMessage({
         action: 'setInterval',
