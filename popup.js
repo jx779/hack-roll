@@ -1146,7 +1146,6 @@ function startTetris(difficulty) {
         ctx.font = '20px system-ui';
         ctx.fillText(`Score: ${state.tetrisScore}`, canvas.width / 2, canvas.height / 2 + 10);
         ctx.font = '16px system-ui';
-        ctx.fillText('Click Start to play again', canvas.width / 2, canvas.height / 2 + 50);
         
         if (controls) controls.style.display = 'block';
         return;
@@ -1162,42 +1161,38 @@ function startTetris(difficulty) {
 
 // controls
 document.addEventListener('keydown', (e) => {
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+    e.preventDefault();
+  }
+
   if (state.currentGame === 'snake' && snakeGameState && !snakeGameState.gameOver) {
     if (snakeGameState.mode === 1) {
       // single player controls --> arrow keys
       if (e.key === 'ArrowUp' && snakeGameState.direction.y === 0) {
-        e.preventDefault();
         snakeGameState.nextDirection = { x: 0, y: -1 };
       }
       if (e.key === 'ArrowDown' && snakeGameState.direction.y === 0) {
-        e.preventDefault();
         snakeGameState.nextDirection = { x: 0, y: 1 };
       }
       if (e.key === 'ArrowLeft' && snakeGameState.direction.x === 0) {
-        e.preventDefault();
         snakeGameState.nextDirection = { x: -1, y: 0 };
       }
       if (e.key === 'ArrowRight' && snakeGameState.direction.x === 0) {
-        e.preventDefault();
         snakeGameState.nextDirection = { x: 1, y: 0 };
       }
     } else if (snakeGameState.mode === 2) {
       // player 1 use WASD
       if (snakeGameState.alive1) {
         if ((e.key === 'w' || e.key === 'W') && snakeGameState.direction1.y === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection1 = { x: 0, y: -1 };
         }
         if ((e.key === 's' || e.key === 'S') && snakeGameState.direction1.y === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection1 = { x: 0, y: 1 };
         }
         if ((e.key === 'a' || e.key === 'A') && snakeGameState.direction1.x === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection1 = { x: -1, y: 0 };
         }
         if ((e.key === 'd' || e.key === 'D') && snakeGameState.direction1.x === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection1 = { x: 1, y: 0 };
         }
       }
@@ -1205,19 +1200,15 @@ document.addEventListener('keydown', (e) => {
       // player 2 use arrow keys
       if (snakeGameState.alive2) {
         if (e.key === 'ArrowUp' && snakeGameState.direction2.y === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection2 = { x: 0, y: -1 };
         }
         if (e.key === 'ArrowDown' && snakeGameState.direction2.y === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection2 = { x: 0, y: 1 };
         }
         if (e.key === 'ArrowLeft' && snakeGameState.direction2.x === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection2 = { x: -1, y: 0 };
         }
         if (e.key === 'ArrowRight' && snakeGameState.direction2.x === 0) {
-          e.preventDefault();
           snakeGameState.nextDirection2 = { x: 1, y: 0 };
         }
       }
@@ -1226,45 +1217,36 @@ document.addEventListener('keydown', (e) => {
   
   if (state.currentGame === 'flappy' && flappyGameState && !flappyGameState.gameOver) {
     if (e.key === ' ' || e.key === 'ArrowUp') {
-      e.preventDefault();
       flappyGameState.bird.velocity = -9;
     }
   }
   
   if (state.currentGame === '2048') {
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
       move2048('up');
     }
     if (e.key === 'ArrowDown') {
-      e.preventDefault();
       move2048('down');
     }
     if (e.key === 'ArrowLeft') {
-      e.preventDefault();
       move2048('left');
     }
     if (e.key === 'ArrowRight') {
-      e.preventDefault();
       move2048('right');
     }
   }
 
   if (state.currentGame === 'tetris' && tetrisGameState && !tetrisGameState.gameOver) {
     if (e.key === 'ArrowLeft') {
-      e.preventDefault();
       tetrisGameState.moveLeft();
     }
     if (e.key === 'ArrowRight') {
-      e.preventDefault();
       tetrisGameState.moveRight();
     }
     if (e.key === 'ArrowDown') {
-      e.preventDefault();
       tetrisGameState.moveDown();
     }
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
       tetrisGameState.rotate();
     }
   }
