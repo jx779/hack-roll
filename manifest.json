@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Game Zone",
+  "name": "Breakie!",
   "version": "1.0",
-  "description": "Stressed from working? Take a break every hour with our super fun mini games!",
+  "description": "Stressed from working? Take a break with our super fun mini games!",
   "action": {
     "default_popup": "settings.html",
     "default_icon": "icon.png"

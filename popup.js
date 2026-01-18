@@ -69,7 +69,7 @@ function render() {
   const headerSubtitle = document.getElementById('headerSubtitle');
 
   if (state.currentGame === 'menu') {
-    headerTitle.textContent = '🎮 Game Zone';
+    headerTitle.textContent = '🎮 Breakie';
     headerSubtitle.textContent = 'Time for a brain break!';
     renderMenu(content);
   } else if (state.currentGame === 'snake') {
